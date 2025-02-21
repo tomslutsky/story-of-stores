@@ -1,5 +1,4 @@
-import { startTransition, useState } from "react";
-import { useParams } from "react-router";
+import { useState } from "react";
 
 export function RatingWidgetForm({
   onSubmit,
