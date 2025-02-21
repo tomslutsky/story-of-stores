@@ -10,6 +10,7 @@ export async function loader({ params: { slug } }: LoaderFunctionArgs) {
 
 export function Component() {
   const { title, image, description, price } = useLoaderData();
+
   const [ratings, setRatings] = useState<number[]>([]);
 
   return (
