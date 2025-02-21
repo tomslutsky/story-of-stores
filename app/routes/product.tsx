@@ -1,15 +1,13 @@
-import { useLoaderData } from "react-router";
-import db from "../db.json";
+import db from "~/db";
 import type { Route } from "./+types/product";
-import { RatingWidgetForm } from "~/components/rating-widget-form";
 import { RatingWidget } from "~/components/rating-widget";
 import { useSyncExternalStore } from "react";
 import { store } from "~/store";
 
-export function clientLoader({ params }: Route.LoaderArgs) {
-  const data = db[params.slug];
+export function clientLoader({ params: { slug } }: Route.ClientActionArgs) {
+  const data = db[slug as keyof typeof db];
 
-  return { ...data, slug: params.slug };
+  return { ...data, slug: slug };
 }
 
 export default function Product({
@@ -23,23 +21,14 @@ export default function Product({
       <div className="product-info">
         <span className="product-title">
           <h2>{title}</h2>
-          <AverageRating slug={slug} />
         </span>
         <p className="price">${price}</p>
         <p className="description">{description}</p>
         <button className="buy-button">Add to Cart</button>
         <div className="rating-section">
-          <RatingWidget slug={slug} />
+          <RatingWidget />
         </div>
       </div>
     </div>
   );
-}
-
-function AverageRating({ slug }: { slug: string }) {
-  const averageRating = useSyncExternalStore(store.subscribe, () => {
-    const ratings = store.data.get(slug) || [];
-    return ratings.reduce((acc, r) => acc + r, 0) / (ratings.length || 1);
-  });
-  return <span>({averageRating.toFixed(1)})</span>;
 }

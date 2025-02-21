@@ -1,7 +1,11 @@
 import { startTransition, useState } from "react";
-import { store } from "~/store";
+import { useParams } from "react-router";
 
-export function RatingWidgetForm({ slug }: { slug: string }) {
+export function RatingWidgetForm({
+  onSubmit,
+}: {
+  onSubmit: (rating: number) => void;
+}) {
   const [hoverRating, setHoverRating] = useState(0);
   return (
     <div className="star-container" onMouseLeave={() => setHoverRating(0)}>
@@ -9,15 +13,11 @@ export function RatingWidgetForm({ slug }: { slug: string }) {
         <button
           key={star}
           onClick={() => {
-            startTransition(() => {
-              store.addRating(slug, star);
-            });
+            onSubmit(star);
+            setHoverRating(0);
           }}
           onMouseEnter={() => setHoverRating(star)}
           className={`star ${star <= hoverRating ? "filled" : ""}`}
-          style={{
-            animationDelay: `${star * 0.1}s`,
-          }}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

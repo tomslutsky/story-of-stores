@@ -1,20 +1,14 @@
-import { useSyncExternalStore } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { RatingWidgetForm } from "./rating-widget-form";
-import { store } from "~/store";
 
-export function RatingWidget({ slug }: { slug: string }) {
+export function RatingWidget() {
+  const [ratings, setRatings] = useState<number[]>([]);
   return (
     <div className="rating-container">
-      <Count slug={slug} />
-      <RatingWidgetForm slug={slug} />
+      <h1>Join {ratings.length} raters!</h1>
+      <RatingWidgetForm
+        onSubmit={(rating) => setRatings((prev) => [...prev, rating])}
+      />
     </div>
   );
-}
-
-function Count({ slug }: { slug: string }) {
-  const ratersCount = useSyncExternalStore(store.subscribe, () => {
-    return store.data.get(slug)?.length || 0;
-  });
-
-  return <h1>Join {ratersCount} raters!</h1>;
 }
