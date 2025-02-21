@@ -1,7 +1,7 @@
 import db from "~/db";
 import type { Route } from "./+types/product";
 import { RatingWidget } from "~/components/rating-widget";
-import { useState } from "react";
+import { useRatingContext } from "~/rating-context";
 
 export function clientLoader({ params: { slug } }: Route.ClientActionArgs) {
   const data = db[slug as keyof typeof db];
@@ -12,8 +12,8 @@ export function clientLoader({ params: { slug } }: Route.ClientActionArgs) {
 export default function Product({
   loaderData: { title, image, description, price, slug },
 }: Route.ComponentProps) {
-  const [ratings, setRatings] = useState<number[]>([]);
-
+  const { ratings, addRating } = useRatingContext();
+  const filteredRatings = ratings.filter((r) => r.product === slug);
   return (
     <div className="product">
       <div className="product-image">
@@ -22,15 +22,17 @@ export default function Product({
       <div className="product-info">
         <span className="product-title">
           <h2>{title}</h2>
-          <span>({avg(ratings).toFixed(1)})</span>
+          <span>
+            ({avg(filteredRatings.map((rating) => rating.rating)).toFixed(1)})
+          </span>
         </span>
         <p className="price">${price}</p>
         <p className="description">{description}</p>
         <button className="buy-button">Add to Cart</button>
         <div className="rating-section">
           <RatingWidget
-            raters={ratings.length}
-            onRatingAdded={(rating) => setRatings((prev) => [...prev, rating])}
+            raters={filteredRatings.length}
+            onRatingAdded={(rating) => addRating({ product: slug, rating })}
           />
         </div>
       </div>

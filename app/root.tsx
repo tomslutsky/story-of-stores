@@ -3,7 +3,6 @@ import {
   isRouteErrorResponse,
   Links,
   Meta,
-  NavLink,
   Outlet,
   Scripts,
   ScrollRestoration,
@@ -12,6 +11,7 @@ import {
 import type { Route } from "./+types/root";
 import "./app.css";
 import { Header } from "./components/header";
+import { RatingContextProvider } from "./rating-context";
 
 scan({
   enabled: true,
@@ -41,11 +41,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <div className="product-page">
-          <Header />
+        <RatingContextProvider>
+          <div className="product-page">
+            <Header />
 
-          <main>{children}</main>
-        </div>
+            <main>{children}</main>
+          </div>
+        </RatingContextProvider>
 
         <ScrollRestoration />
         <Scripts />
