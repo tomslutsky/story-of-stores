@@ -1,4 +1,4 @@
-import { useState, useSyncExternalStore } from "react";
+import { useState } from "react";
 import { RatingWidgetForm } from "./rating-widget-form";
 
 export function RatingWidget() {

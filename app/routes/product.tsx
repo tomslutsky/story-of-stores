@@ -1,8 +1,6 @@
 import db from "~/db";
 import type { Route } from "./+types/product";
 import { RatingWidget } from "~/components/rating-widget";
-import { useSyncExternalStore } from "react";
-import { store } from "~/store";
 
 export function clientLoader({ params: { slug } }: Route.ClientActionArgs) {
   const data = db[slug as keyof typeof db];
