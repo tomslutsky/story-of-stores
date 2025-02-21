@@ -1,10 +1,11 @@
-import { scan } from "react-scan"; // Must be imported before React Router
+import { scan } from "react-scan";
 import { Outlet } from "react-router";
 
 import "./app.css";
 import { Header } from "./components/header";
 import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
+import { RatingContextProvider } from "./rating-context";
 
 scan({
   enabled: true,
@@ -24,12 +25,14 @@ export default function App() {
 
 function Layout() {
   return (
-    <div className="product-page">
-      <Header />
+    <RatingContextProvider>
+      <div className="product-page">
+        <Header />
 
-      <main>
-        <Outlet />
-      </main>
-    </div>
+        <main>
+          <Outlet />
+        </main>
+      </div>
+    </RatingContextProvider>
   );
 }
