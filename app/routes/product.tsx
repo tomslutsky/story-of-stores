@@ -1,16 +1,14 @@
-import db from "~/db";
-import type { Route } from "./+types/product";
+import { getProduct } from "~/db";
 import { RatingWidget } from "~/components/rating-widget";
+import { useLoaderData } from "react-router";
+import type { LoaderFunctionArgs } from "react-router";
 
-export function clientLoader({ params: { slug } }: Route.ClientActionArgs) {
-  const data = db[slug as keyof typeof db];
-
-  return { ...data, slug: slug };
+export async function loader({ params: { slug } }: LoaderFunctionArgs) {
+  return await getProduct(slug!);
 }
 
-export default function Product({
-  loaderData: { title, image, description, price, slug },
-}: Route.ComponentProps) {
+export function Component() {
+  const { title, image, description, price } = useLoaderData();
   return (
     <div className="product">
       <div className="product-image">
