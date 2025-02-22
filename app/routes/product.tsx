@@ -1,14 +1,12 @@
-import db from "~/db";
+import { getProduct } from "~/db";
 import { RatingWidget } from "~/components/rating-widget";
 import { store, useRatingsStore } from "~/store";
 import type { LoaderFunctionArgs } from "react-router";
 import { useLoaderData } from "react-router";
 import { useParams } from "react-router";
 
-export function loader({ params: { slug } }: LoaderFunctionArgs) {
-  const data = db[slug as keyof typeof db];
-
-  return { ...data, slug: slug };
+export async function loader({ params: { slug } }: LoaderFunctionArgs) {
+  return await getProduct(slug!);
 }
 
 export function Component() {
