@@ -28,6 +28,15 @@ html {
     source-sans-pro, sans-serif;
 }
 
+.app-container {
+ max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 20px;
+}
+
 .rating-container {
   display: flex;
   flex-direction: column;
@@ -114,9 +123,7 @@ body {
 }
 
 .product-page {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+
 }
 
 header {
