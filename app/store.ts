@@ -26,5 +26,10 @@ export const store = {
   },
 };
 
-export const useRatingsStore = () =>
-  useSyncExternalStore(store.subscribe, () => store.data);
+type Selector<T> = (data: typeof store.data) => T;
+
+export const useRatingsStore = <T>(
+  selector: Selector<T> = (data) => data as T
+) => {
+  return useSyncExternalStore(store.subscribe, () => selector(store.data));
+};

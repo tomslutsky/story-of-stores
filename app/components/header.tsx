@@ -2,10 +2,6 @@ import { NavLink } from "react-router";
 import { useRatingsStore } from "~/store";
 
 export function Header() {
-  const ratings = useRatingsStore();
-
-  const goodRatingsCount = ratings.filter((r) => r.rating >= 4).length;
-
   return (
     <header className="header">
       <h1>Out if this world snacks</h1>
@@ -19,7 +15,15 @@ export function Header() {
           </li>
         </ul>
       </nav>
-      <p>{goodRatingsCount} happy spacers</p>
+      <HappySpacers />
     </header>
   );
+}
+
+function HappySpacers() {
+  const goodRatingsCount = useRatingsStore(
+    (ratings) => ratings.filter((r) => r.rating >= 4).length
+  );
+
+  return <p>{goodRatingsCount} happy spacers</p>;
 }
