@@ -1,8 +1,8 @@
 import { NavLink } from "react-router";
-import { useRatingContext } from "~/rating-context";
+import { useRatingsStore } from "~/store";
 
 export function Header() {
-  const { ratings } = useRatingContext();
+  const ratings = useRatingsStore();
 
   const goodRatingsCount = ratings.filter((r) => r.rating >= 4).length;
 

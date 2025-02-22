@@ -1,7 +1,14 @@
+import { useSyncExternalStore } from "react";
+
 type Subscriber = () => void;
 
+type Rating = {
+  product: string;
+  rating: number;
+};
+
 export const store = {
-  data: new Map<string, number[]>(),
+  data: [] as Rating[],
   subscribers: new Set<Subscriber>(),
   subscribe: (subscriber: Subscriber) => {
     store.subscribers.add(subscriber);
@@ -13,12 +20,15 @@ export const store = {
     }
   },
 
-  addRating: (slug: string, rating: number) => {
-    if (!store.data.has(slug)) {
-      store.data.set(slug, []);
-    }
-    store.data.get(slug)!.push(rating);
-
+  addRating: ({ product, rating }: { product: string; rating: number }) => {
+    store.data = [...store.data, { product, rating }];
     store.emit();
   },
 };
+
+export const useRatingsStore = () =>
+  useSyncExternalStore(
+    store.subscribe,
+    () => store.data,
+    () => store.data
+  );

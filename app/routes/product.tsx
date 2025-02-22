@@ -1,7 +1,7 @@
 import db from "~/db";
 import type { Route } from "./+types/product";
 import { RatingWidget } from "~/components/rating-widget";
-import { useRatingContext } from "~/rating-context";
+import { store, useRatingsStore } from "~/store";
 
 export function clientLoader({ params: { slug } }: Route.ClientActionArgs) {
   const data = db[slug as keyof typeof db];
@@ -12,7 +12,7 @@ export function clientLoader({ params: { slug } }: Route.ClientActionArgs) {
 export default function Product({
   loaderData: { title, image, description, price, slug },
 }: Route.ComponentProps) {
-  const { ratings, addRating } = useRatingContext();
+  const ratings = useRatingsStore();
   const filteredRatings = ratings.filter((r) => r.product === slug);
   return (
     <div className="product">
@@ -32,7 +32,9 @@ export default function Product({
         <div className="rating-section">
           <RatingWidget
             raters={filteredRatings.length}
-            onRatingAdded={(rating) => addRating({ product: slug, rating })}
+            onRatingAdded={(rating) =>
+              store.addRating({ product: slug, rating })
+            }
           />
         </div>
       </div>

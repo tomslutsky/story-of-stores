@@ -11,7 +11,6 @@ import {
 import type { Route } from "./+types/root";
 import "./app.css";
 import { Header } from "./components/header";
-import { RatingContextProvider } from "./rating-context";
 
 scan({
   enabled: true,
@@ -41,13 +40,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <RatingContextProvider>
-          <div className="product-page">
-            <Header />
+        <div className="product-page">
+          <Header />
 
-            <main>{children}</main>
-          </div>
-        </RatingContextProvider>
+          <main>{children}</main>
+        </div>
 
         <ScrollRestoration />
         <Scripts />
