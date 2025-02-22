@@ -2,16 +2,17 @@ import db from "~/db";
 import type { Route } from "./+types/product";
 import { RatingWidget } from "~/components/rating-widget";
 import { store, useRatingsStore } from "~/store";
+import type { LoaderFunctionArgs } from "react-router";
+import { useLoaderData } from "react-router";
 
-export function clientLoader({ params: { slug } }: Route.ClientActionArgs) {
+export function loader({ params: { slug } }: LoaderFunctionArgs) {
   const data = db[slug as keyof typeof db];
 
   return { ...data, slug: slug };
 }
 
-export default function Product({
-  loaderData: { title, image, description, price, slug },
-}: Route.ComponentProps) {
+export function Component() {
+  const { title, image, description, price, slug } = useLoaderData();
   const ratings = useRatingsStore();
   const filteredRatings = ratings.filter((r) => r.product === slug);
   return (
