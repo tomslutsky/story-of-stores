@@ -27,8 +27,4 @@ export const store = {
 };
 
 export const useRatingsStore = () =>
-  useSyncExternalStore(
-    store.subscribe,
-    () => store.data,
-    () => store.data
-  );
+  useSyncExternalStore(store.subscribe, () => store.data);
